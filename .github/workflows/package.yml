@@ -1,0 +1,24 @@
+name: 'Automatic LÖVE packaging'
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -q -y zip
+    - name: Package up
+      run: |
+        zip -r "Pong.love" ./* -x '*.git*'
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Pong.love
+        path: Pong.love
